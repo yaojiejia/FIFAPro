@@ -40,7 +40,8 @@ model team{
   overall   Int
   attack    Int
   midfield  Int
-  defenses  Int
+  defence   Int
   stadium   String
   league    String
+  nation    String
 }
