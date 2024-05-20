@@ -5,7 +5,7 @@ Welcome to the FIFA Players and Teams API! This API allows users to request info
 ## Table of Contents
 
 - [Description](#Description)
-- [Project Structure](#Project_Structure)
+- [Project Structure](#project-structure)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [API Endpoints](#api-endpoints)
