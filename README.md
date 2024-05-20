@@ -22,11 +22,24 @@ Ensure you have the following software installed on your local machine:
 
 - [Node.js](https://nodejs.org/) (version 12.x or higher)
 - [npm](https://www.npmjs.com/) (comes with Node.js)
+- [MongoDB](https://www.mongodb.com/) (requires a new account and database)
 
 ### Installation
 
 1. Clone the repository:
 
    ```sh
-   git clone https://github.com/yourusername/fifa-players-teams-api.git
-   cd fifa-players-teams-api
+   git clone https://github.com/yaojiejia/FIFAPro.git
+   cd FIFAPro
+2. Add .env:
+   ```sh
+   Create a new .env file under the root directory, specify the database URL as the following:
+   DATABASE_URL = "UR MONGO CONNECTION STRING"
+3. Install Dependencies and Running
+
+   ```sh
+   npm install
+   npm start
+   or nodemon:
+   npm no
+   
