@@ -4,15 +4,35 @@ Welcome to the FIFA Players and Teams API! This API allows users to request info
 
 ## Table of Contents
 
-- [Getting Started](#getting-started)
+- [Description](#Description)
+- [Project Structure](#Project_Structure)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [API Endpoints](#api-endpoints)
 - [Contributing](#contributing)
 
-## Getting Started
+## Description
 
-These instructions will help you set up and run the project on your local machine for development and testing purposes.
+The FIFAPro API project includes the following key features:
+
+- **Player Data Retrieval:** Develop endpoints to retrieve information about FIFA players including their names, teams, and other relevant details.
+- **Team Data Retrieval:** Implement endpoints to retrieve information about FIFA teams including their names and other related data.
+- **RESTful API:** Create a RESTful API using Node.js and Express.js to handle client requests and serve the required data.
+- **Database Integration:** Utilize MongoDB to store and manage player and team data efficiently.
+- **API Documentation:** Document the API endpoints, request formats, and response structures for ease of use by developers.
+- **Error Handling:** Implement robust error handling mechanisms to ensure smooth operation of the API.
+- **Deployment:** Deploy the API on a cloud service for continuous availability and scalability.
+
+## Project Structure
+
+1. **Routes:** Define routes and request handling logic for player and team endpoints.
+2. **Controllers:** Implement controller functions to handle requests, interact with the database, and send responses.
+3. **Database Models:** Define MongoDB schemas for players and teams and create models for data manipulation.
+4. **Middleware:** Implement middleware functions for request validation, error handling, and other pre-processing tasks.
+5. **API Documentation:** Document API endpoints, request formats, and response structures using tools like Swagger.
+6. **Testing:** Develop unit tests and integration tests to ensure the correctness and reliability of the API.
+7. **Deployment:** Deploy the API on a cloud platform such as Heroku or AWS for public access.
+
 
 ### Prerequisites
 
