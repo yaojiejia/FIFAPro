@@ -27,16 +27,15 @@ The FIFAPro API project includes the following key features:
 
 1. **Routes:** Define routes and request handling logic for player and team endpoints.
 2. **Controllers:** Implement controller functions to handle requests, interact with the database, and send responses.
-3. **Database Models:** Define MongoDB schemas for players and teams and create models for data manipulation.
-4. **Middleware:** Implement middleware functions for request validation, error handling, and other pre-processing tasks.
-5. **API Documentation:** Document API endpoints, request formats, and response structures using tools like Swagger.
-6. **Testing:** Develop unit tests and integration tests to ensure the correctness and reliability of the API.
-7. **Deployment:** Deploy the API on a cloud platform such as Heroku or AWS for public access.
-
+3. **Database Models:** Define MongoDB schemas by using the Prisma library for players and teams and create models for data manipulation.
+4. **Middleware:** Implement ExpressJS for request validation, error handling, and other pre-processing tasks.
+5. **API Documentation:** Document API endpoints, request formats, and response structures using Swagger.
+6. **Testing:** Develop unit tests and integration tests to ensure the correctness and reliability of the API. Facilitated API endpoint testing by Postman.
+7. **Deployment:** Deploy the API Render.
 
 ### Prerequisites
 
-Ensure you have the following software installed on your local machine:
+Ensure you have the following software or website set or installed on your local machine:
 
 - [Node.js](https://nodejs.org/) (version 12.x or higher)
 - [npm](https://www.npmjs.com/) (comes with Node.js)
