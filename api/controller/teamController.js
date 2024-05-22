@@ -1,3 +1,4 @@
+import e from 'express';
 import prisma from '../lib/prisma.js';
 
 export const getByID = async (req,res) =>  {
@@ -56,3 +57,35 @@ export const getTeamByQuery = async (req, res) => {
           await prisma.$disconnect();
         }
       };
+
+export const getAllPlayersByTeam = async (req, res) => {
+    const { name, version } = req.query;
+
+    try {
+      const parsedVersion = parseInt(version);
+      if (isNaN(parsedVersion)) {
+        return res.status(400).json({ error: 'Invalid version parameter' });
+      }
+
+      const teamPlayers = await prisma.player.findMany({
+        where: {
+          club: {
+            contains: name,
+            mode: 'insensitive'  
+          },
+          version: parsedVersion,
+        },
+      });
+
+      if (teamPlayers.length > 0) {
+        res.status(200).json(teamPlayers);
+      } else {
+        res.status(404).json({ message: 'Team Players not found, Check Documentation' });
+      }
+    } catch (error) {
+      console.error('Error retrieving team players:', error);
+      res.status(500).json({ error: 'Internal Server Error, Please Check Documentation' });
+    } finally {
+      await prisma.$disconnect();
+    }
+};
