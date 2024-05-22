@@ -1,4 +1,4 @@
-# FIFA Players and Teams API
+# FIFA API
 
 Welcome to the FIFA Players and Teams API! This API allows users to request information about players and teams in FIFA. It provides endpoints to retrieve data such as player names, team names, and other related information.
 
