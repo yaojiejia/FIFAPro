@@ -52,5 +52,9 @@ describe("get player's info", () => {
             "gk": 5
         })
     })
+    test('should get all players by version 24', async () => {
+        const response = await supertest(app).get('/api/players/version/?version=24')
+        expect(response.status).toBe(200)
+    }, 10000)
 })
 

@@ -1,29 +1,32 @@
 import prisma from '../lib/prisma.js';
 
-export const getPlayerID = async (req, res) => {
-  const { id } = req.params;
 
+
+
+export const getPlayerID = async (id) => {
   try {
     const player = await prisma.player.findUnique({
-      where: { id: id },
+      where: { id },
     });
 
-    if (player) {
-      res.status(200).json(player);
-    } else {
-      res.status(404).json({ message: 'Player not found, Check Documentation' });
+    if (!player) {
+      return { error: true, message: 'Player not found, Check Documentation' };
     }
+
+    return { error: false, data: player };
   } catch (error) {
     console.error('Error retrieving player:', error);
-    res.status(500).json({ error: 'Internal Server Error, Please Check Documentation' });
+    return { error: true, message: 'Internal Server Error, Please Check Documentation' };
   } finally {
     await prisma.$disconnect();
   }
 };
 
 
-export const getPlayerByQuery = async (req, res) => {
-  const { name, version } = req.query;
+
+
+
+export const getPlayerByQuery = async (name, version) => {
 
   try {
     const query = {};
@@ -43,35 +46,41 @@ export const getPlayerByQuery = async (req, res) => {
       where: query,
     });
 
-    if (player) {
-      res.status(200).json(player);
-    } else {
-      res.status(404).json({ message: 'Player not found, Check Documentation' });
+    if (!player) {
+      return { error: true, message: 'Player not found, Check Documentation' };
     }
+
+    return { error: false, data: player };
+
   } catch (error) {
     console.error('Error retrieving player:', error);
-    res.status(500).json({ error: 'Internal Server Error, Please Check Documentation' });
+    return { error: true, message: 'Internal Server Error, Please Check Documentation' };
   } finally {
     await prisma.$disconnect();
   }
 };
 
-export const getAllPlayersByVersion = async (req, res) => {
-  const { version } = req.params;
+
+
+
+
+
+export const getAllPlayersByVersion = async (version) => {
 
   try {
     const player = await prisma.player.findMany({
       where: { version: version },
     });
 
-    if (player) {
-      res.status(200).json(player);
-    } else {
-      res.status(404).json({ message: 'Player not found, Check Documentation' });
+    if (!player) {
+      return { error: true, message: 'Player not found, Check Documentation' };
     }
+
+    return { error: false, data: player };
+
   } catch (error) {
     console.error('Error retrieving player:', error);
-    res.status(500).json({ error: 'Internal Server Error, Please Check Documentation' });
+    return { error: true, message: 'Internal Server Error, Please Check Documentation' };
   } finally {
     await prisma.$disconnect();
   }
