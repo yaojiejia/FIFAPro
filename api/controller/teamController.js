@@ -1,4 +1,4 @@
-import e from 'express';
+import express from 'express';
 import prisma from '../lib/prisma.js';
 
 export const getByID = async (req,res) =>  {
