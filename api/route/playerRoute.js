@@ -1,14 +1,12 @@
 import express from "express"
-import { getAllPlayersByVersion, getPlayerByQuery, getPlayerID } from "../controller/playerController.js"
+import { getEntityByID, getEntityByQuery, getAllEntitiesByVersion } from "../controller/entityController.js"
 const router = express.Router();
-
-
 
 
 router.get("/players/getByID/:id", async (req, res) => {
     const id = req.params.id;
     try {
-        const result = await getPlayerID(id);
+        const result = await getEntityByID(id, "player");
         if (result.error) {
             const statusCode = result.message === 'Player not found, Check Documentation' ? 404 : 500;
             res.status(statusCode).json({ message: result.message });
@@ -24,7 +22,7 @@ router.get("/players/getByID/:id", async (req, res) => {
 router.get("/players/getByName/", async (req,res) =>{
     const { name, version } = req.query;
     try{
-        const result = await getPlayerByQuery(name, version);
+        const result = await getEntityByQuery(name, version, "player");
         if(result.error){
             const statusCode = result.message === 'Player not found, Check Documentation' ? 404 : 500;
             res.status(statusCode).json({ message: result.message });
@@ -40,7 +38,7 @@ router.get("/players/getByName/", async (req,res) =>{
 router.get("/players/version", async (req,res) =>{
     const { version } = req.params;
     try{
-        const result = await getAllPlayersByVersion(version);
+        const result = await getAllEntitiesByVersion(version, "player");
         if(result.error){
             const statusCode = result.message === 'Players not found, Check Documentation' ? 404 : 500;
             res.status(statusCode).json({ message: result.message });

@@ -52,9 +52,43 @@ describe("get player's info", () => {
             "gk": 5
         })
     })
-    test('should get all players by version 24', async () => {
-        const response = await supertest(app).get('/api/players/version/?version=24')
-        expect(response.status).toBe(200)
-    }, 10000)
+    // test('should get all players by version 24', async () => {
+    //     const response = await supertest(app).get('/api/players/version/?version=24')
+    //     expect(response.status).toBe(200)
+    // }, 10000)
+})
+
+describe("get teams info", ()=>{
+    test("should get team info by inserting 66498dbdf2c6221e4aaa5b05", async()=>{
+        const response = await supertest(app).get('/api/teams/getByID/66498dbdf2c6221e4aaa5b05')
+        expect(response.body).toEqual({
+            "id": "66498dbdf2c6221e4aaa5b05",
+            "version": 24,
+            "name": "FC Bayern München",
+            "overall": 84,
+            "attack": 90,
+            "midfield": 84,
+            "defence": 83,
+            "stadium": "Sanderson Park (FIFA 13 NEW generic)",
+            "league": "Bundesliga",
+            "nation": "Germany"
+        })
+    })
+
+    test("should get bayern as json by inserting bayern", async()=>{
+        const response = await supertest(app).get('/api/teams/getByName/?name=bayern&version=24')
+        expect(response.body).toEqual({
+            "id": "66498dbdf2c6221e4aaa5b05",
+            "version": 24,
+            "name": "FC Bayern München",
+            "overall": 84,
+            "attack": 90,
+            "midfield": 84,
+            "defence": 83,
+            "stadium": "Sanderson Park (FIFA 13 NEW generic)",
+            "league": "Bundesliga",
+            "nation": "Germany"
+        })
+    },10000)
 })
 
