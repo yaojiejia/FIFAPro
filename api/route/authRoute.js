@@ -16,6 +16,8 @@ router.get("/register", async (req,res) =>{
 })
 router.get("/login", (req,res) =>{
     const {username, password} = req.body
+    
+    
 
 })
 
