@@ -1,11 +1,16 @@
 import express from "express"
 import { getEntityByID, getEntityByQuery } from "../controller/entityController.js";
-
+import { apiVeryfication } from "../service/apiVerification.js";
 const router = express()
 
 
-router.get("/teams/getByID/:id", async (req,res) => {
-    const id = req.params.id;
+router.get("/teams/getByID/", async (req,res) => {
+    const {id, apiKey} = req.query;
+    const verified = await apiVeryfication(apiKey);
+    if (!verified || !apiKey) {
+        res.status(401).json({ message: 'Unauthorized, Check Documentation' });
+        return;
+    }
     try {
         const result = await getEntityByID(id, "team");
         if (result.error) {
@@ -21,7 +26,12 @@ router.get("/teams/getByID/:id", async (req,res) => {
 
 
 router.get("/teams/getByName", async (req, res) =>{
-    const { name, version } = req.query;
+    const { name, version, apiKey } = req.query;
+    const verified = await apiVeryfication(apiKey);
+    if (!verified || !apiKey) {
+        res.status(401).json({ message: 'Unauthorized, Check Documentation' });
+        return;
+    }
     try{
         const result = await getEntityByQuery(name, version, "team");
         if(result.error){
@@ -37,7 +47,12 @@ router.get("/teams/getByName", async (req, res) =>{
 
 
 router.get("/teams/version", async (req,res) =>{
-    const { version } = req.params;
+    const { version, apiKey } = req.query;
+    const verified = await apiVeryfication(apiKey);
+    if (!verified || !apiKey) {
+        res.status(401).json({ message: 'Unauthorized, Check Documentation' });
+        return;
+    }
     try{
         const result = await getAllEntitiesByVersion(version, "team");
         if(result.error){

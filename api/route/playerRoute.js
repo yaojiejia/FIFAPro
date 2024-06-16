@@ -1,16 +1,26 @@
 import express from "express"
 import { getEntityByID, getEntityByQuery, getAllEntitiesByVersion } from "../controller/entityController.js"
+import { apiVeryfication } from "../service/apiVerification.js";
 const router = express.Router();
 
 
-router.get("/players/getByID/:id", async (req, res) => {
-    const id = req.params.id;
+router.get("/players/getByID/", async (req, res) => {
+    const {id, apiKey} = req.query;
+    const verified = await apiVeryfication(apiKey);
+    if (!verified || !apiKey) {
+        res.status(401).json({ message: 'Unauthorized, Check Documentation' });
+        return;
+    }
+
     try {
         const result = await getEntityByID(id, "player");
+
         if (result.error) {
+
             const statusCode = result.message === 'Player not found, Check Documentation' ? 404 : 500;
             res.status(statusCode).json({ message: result.message });
         } else {
+
             res.status(200).json(result.data);
         }
     } catch (error) {
@@ -20,7 +30,12 @@ router.get("/players/getByID/:id", async (req, res) => {
 
 
 router.get("/players/getByName/", async (req,res) =>{
-    const { name, version } = req.query;
+    const { name, version, apiKey } = req.query;
+    const verified = await apiVeryfication(apiKey);
+    if (!verified || !apiKey) {
+        res.status(401).json({ message: 'Unauthorized, Check Documentation' });
+        return;
+    }
     try{
         const result = await getEntityByQuery(name, version, "player");
         if(result.error){
@@ -36,7 +51,12 @@ router.get("/players/getByName/", async (req,res) =>{
 
 
 router.get("/players/version", async (req,res) =>{
-    const { version } = req.params;
+    const { version, apiKey } = req.query;
+    const verified = await apiVeryfication(apiKey);
+    if (!verified || !apiKey) {
+        res.status(401).json({ message: 'Unauthorized, Check Documentation' });
+        return;
+    }
     try{
         const result = await getAllEntitiesByVersion(version, "player");
         if(result.error){
