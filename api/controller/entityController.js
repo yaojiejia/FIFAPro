@@ -1,23 +1,36 @@
 import prisma from '../lib/prisma.js';
+import redis from 'redis';
+import { promisify } from 'util';
+
+const redisClient = redis.createClient();
+const EXPIRATION = 1000;
+
+// Promisify the get and setex methods
+const getAsync = promisify(redisClient.get).bind(redisClient);
+const setexAsync = promisify(redisClient.setex).bind(redisClient);
 
 export const getEntityByID = async (id, className) => {
   try {
-    // Dynamically select the Prisma model based on className
-    const model = prisma[className];
+    const data = await getAsync(id);
+    if (data) {
+      return { error: false, data: JSON.parse(data) };
+    } else {
+      const model = prisma[className];
+      if (!model) {
+        return { error: true, message: 'Invalid class name, Check Documentation' };
+      }
 
-    if (!model) {
-      return { error: true, message: 'Invalid class name, Check Documentation' };
+      const entity = await model.findUnique({
+        where: { id },
+      });
+
+      if (!entity) {
+        return { error: true, message: 'Player not found, Check Documentation' };
+      }
+
+      await setexAsync(id, EXPIRATION, JSON.stringify(entity));
+      return { error: false, data: entity };
     }
-
-    const entity = await model.findUnique({
-      where: { id },
-    });
-
-    if (!entity) {
-      return { error: true, message: 'Player not found, Check Documentation' };
-    }
-
-    return { error: false, data: entity };
   } catch (error) {
     console.error('Error retrieving player:', error);
     return { error: true, message: 'Internal Server Error, Please Check Documentation' };
@@ -29,9 +42,13 @@ export const getEntityByID = async (id, className) => {
 
 
 
-
 export const getEntityByQuery = async (name, version, className) => {
   try {
+    const data = await getAsync(name+version);
+    if (data) {
+      return { error: false, data: JSON.parse(data) };
+    } else {
+
     const model = prisma[className];
 
     if (!model) {
@@ -59,7 +76,9 @@ export const getEntityByQuery = async (name, version, className) => {
       return { error: true, message: 'Entity not found, Check Documentation' };
     }
 
+    await setexAsync(name+version, EXPIRATION, JSON.stringify(entity));
     return { error: false, data: entity };
+  }
 
   } catch (error) {
     console.error('Error retrieving entity:', error);
@@ -75,6 +94,11 @@ export const getEntityByQuery = async (name, version, className) => {
 
 export const getAllEntitiesByVersion = async (version, className) => {
   try {
+    const data = await getAsync(version);
+    if (data) {
+      return { error: false, data: JSON.parse(data) };
+    } 
+    else{ 
     const model = prisma[className];
 
     if (!model) {
@@ -89,8 +113,9 @@ export const getAllEntitiesByVersion = async (version, className) => {
       return { error: true, message: 'Entities not found, Check Documentation' };
     }
 
+    await setexAsync(version, EXPIRATION, JSON.stringify(entities));
     return { error: false, data: entities };
-
+  }
   } catch (error) {
     console.error('Error retrieving entities:', error);
     return { error: true, message: 'Internal Server Error, Please Check Documentation' };
